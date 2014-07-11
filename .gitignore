@@ -52,3 +52,25 @@ coverage.xml
 # Sphinx documentation
 docs/_build/
 
+# MacOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.Spotlight-V100
+.Trashes
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+
+# Sublime
+*.sublime-project
+*.sublime-workspace
+
+# PyCharm
+.idea/
+
+# VirtualEnv
+venv/
