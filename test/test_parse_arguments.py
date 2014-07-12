@@ -1,8 +1,8 @@
 
-
 from unittest import TestCase
 
 from yasmin.logger import ErrorType
+from yasmin.utils import normalise_dir_name
 from yasmin import yasmin
 
 
@@ -20,10 +20,11 @@ class TestParseArguments(TestCase):
     def test_valid_arguments(self):
         args1 = ["-lang", "cpp", "-ds", "array", "~"]
         test1 = yasmin.parse_arguments(args1)
+        norm_output_dir = normalise_dir_name(args1[4])
         self.assertDictEqual(test1, {
             "data_structure": "array",
             "language": "cpp",
-            "output_dir": "~"
+            "output_dir": norm_output_dir
         })
         args2 = ["-ds", "array", "-lang", "cpp","~"]
         test2 = yasmin.parse_arguments(args2)

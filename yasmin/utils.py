@@ -25,3 +25,16 @@ def check_recipe_sanity(recipe):
         return report_error(ErrorType.RECIPE_BROKEN, recipe)
     else:
         return True
+
+
+def normalise_dir_name(dir_name):
+    prefix, postfix = '', ''
+    if dir_name[0] == '~':
+        prefix = os.path.expanduser('~')
+        if len(dir_name) == 1:
+            dir_name = prefix
+        else:
+            dir_name = prefix + dir_name[1:]
+    if dir_name[len(dir_name) - 1] == '/':
+        postfix = '/'
+    return dir_name + postfix

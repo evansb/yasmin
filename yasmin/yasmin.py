@@ -4,7 +4,7 @@ import os
 import pystache
 
 from yasmin.logger import report_error, ErrorType
-from yasmin.utils import get_root_dir
+from yasmin.utils import get_root_dir, normalise_dir_name
 
 
 MINIMUM_ARG_LENGTH = 5
@@ -25,8 +25,9 @@ def parse_arguments(args):
     return_value = None
     try:
         result = parser.parse_args(args)
+        norm_output_dir = normalise_dir_name(result.output_dir)
         return_value = {
-            "output_dir": result.output_dir,
+            "output_dir": norm_output_dir,
             "language": result.language,
             "data_structure": result.data_structure
         }
@@ -38,7 +39,7 @@ def parse_arguments(args):
 
 def copy_and_render_template_to(argdata):
     root_dir = get_root_dir()
-    vendor_dir = root_dir + "static/vendor"
+    vendor_dir = root_dir + "/static/vendor/"
     ds = argdata["data_structure"]
     context = {
         "vendor_dir": vendor_dir,
@@ -48,7 +49,7 @@ def copy_and_render_template_to(argdata):
     if os.path.samefile(vendor_dir, argdata["output_dir"]):
         return report_error(ErrorType.OUTPUT_DIR_EQUAL_VENDOR)
     else:
-        with open(vendor_dir + "yasmin.html", "r") as template:
-            content = pystache.render(template, context)
-        with open(argdata["output_dir"] + "yasmin.html", "w") as output_file:
+        with open(vendor_dir + "../yasmin.html", "r") as template:
+            content = pystache.render(template.read(), context)
+        with open(argdata["output_dir"] + "yasmin.html", 'a') as output_file:
             output_file.write(content)
